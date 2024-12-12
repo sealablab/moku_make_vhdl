@@ -34,7 +34,7 @@ begin
     OutputA(1) <= not InputA(1); -- Q2: DIO.Outputs[1] is the inverse of DIO_Pin[1]	
     OutputA(2) <= InputA(2) xor InputA(3); --Q3 
 	-- now time declare our counter process
-	COUNTER: process(Clk)
+	increment_counter: process(Clk)
 	begin
 	if rising_edge(Clk) then
 		-- Reset? Then set everything to zero
@@ -44,6 +44,6 @@ begin
 			my_counter <= my_counter + 1;
 		end if;
 	end if;
-	end process; -- end 
+	end process; -- 
 
 end architecture;
