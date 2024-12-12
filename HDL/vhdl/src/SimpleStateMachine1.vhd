@@ -13,17 +13,25 @@ entity SimpleStateMachine1 is
 end entity;
 
 architecture Behavioural of SimpleStateMachine1 is
-    -- NOTE: This is 
+    -- NOTE: This is an `enunmerated` type
     type state_labels is ( Idle, Active, Finish, Abort);
     signal my_state_reg : state_labels;
 begin 
-	--perform cobinatorial assignments
-	-- now time declare our counter process
-	SimpleStateReg_process: process(Clk)
-	begin
+--perform cobinatorial assignments
+-- now time declare our counter process
+-- # def UpdateSimpleState(Clk)
+UpdateSimpleState: process(Clk)
+begin
 	if Reset = '1' then
 		my_state_reg <= Idle;
-	end if;
-	end process; -- (SimpleStateReg_process)
+	elsif rising_edge(Clk) then
+	case (my_state_reg) is 
+		when Idle =>
+			if (Go = '1') then	my_state_reg <= Active; end if;
+		when others =>
+			my_state_reg <= Idle;
+	end case;
+	end if; -- 'Reset'
+end process; -- (UpdateSimpleState)
 
 end architecture;
