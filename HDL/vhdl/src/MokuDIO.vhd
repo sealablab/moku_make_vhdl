@@ -26,10 +26,24 @@ entity MokuDIO is
 end entity;
 
 architecture Behavioural of MokuDIO is
-    signal Count3: unsigned(2 downto 0);
-begin
+	--declare local variables / signals here
+    signal my_counter: unsigned(2 downto 0); --three bit unsigned 
+begin 
+	--perform cobinatorial assignments
 	OutputA(0) <= InputA(0);     -- Q1: DIO.Outputs[0] <= DIO.Inputs(0) 
     OutputA(1) <= not InputA(1); -- Q2: DIO.Outputs[1] is the inverse of DIO_Pin[1]	
     OutputA(2) <= InputA(2) xor InputA(3); --Q3 
+	-- now time declare our counter process
+	COUNTER: process(Clk)
+	begin
+	if rising_edge(Clk) then
+		-- Reset? Then set everything to zero
+		if Reset = '1' then
+			my_counter <= (others => '0');
+		else -- Otherwise, lets add one to our local counter variable
+			my_counter <= my_counter + 1;
+		end if;
+	end if;
+	end process; -- end 
 
 end architecture;
